@@ -34,5 +34,10 @@ stage("Kubernetes Test") {
         sh "kubectl get nodes"
     }
 }
+stage("Deploy to Kubernetes") {
+    steps {
+        sh "kubectl set image deployment/simple-java-docker simple-java-docker=pareekaditya/gitxjenkins:${BUILD_NUMBER}"
+    }
+}
     }
 }
