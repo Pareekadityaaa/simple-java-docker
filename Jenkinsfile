@@ -39,5 +39,10 @@ stage("Deploy to Kubernetes") {
         sh "kubectl set image deployment/simple-java-docker simple-java-docker=pareekaditya/gitxjenkins:${BUILD_NUMBER}"
     }
 }
+stage("Verify Deployment") {
+    steps {
+        sh "kubectl rollout status deployment/simple-java-docker"
     }
 }
+}
+    }
