@@ -26,5 +26,13 @@ pipeline {
                 sh "docker push pareekaditya/gitxjenkins:${BUILD_NUMBER}"
             }
         }
+stage("Kubernetes Test") {
+    steps {
+        sh "whoami"
+        sh "which kubectl"
+        sh "kubectl version --client"
+        sh "kubectl get nodes"
+    }
+}
     }
 }
