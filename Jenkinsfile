@@ -53,7 +53,7 @@ pipeline {
 
         stage("Application Test") {
             steps {
-                sh "kubectl run test-client --rm --image=curlimages/curl -- curl http://java-service:8080"
+                 sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl http://java-service:8080"
             }
         }
     }
