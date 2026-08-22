@@ -56,5 +56,10 @@ pipeline {
                  sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl http://java-service:8080"
             }
         }
+        stage("Record Deployment") {
+            steps {
+                sh "kubectl annotate deployment simple-java-docker kubernetes.io/change-cause=\"Jenkins build ${BUILD_NUMBER}\" --overwrite"
+    }
+}
     }
 }
