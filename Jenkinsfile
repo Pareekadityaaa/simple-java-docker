@@ -1,7 +1,9 @@
 pipeline {
+
     agent { label 'agent' }
 
     stages {
+
         stage("Build") {
             steps {
                 sh "docker build -t gitxjenkins:${BUILD_NUMBER} ."
@@ -46,6 +48,12 @@ pipeline {
         stage("Verify Deployment") {
             steps {
                 sh "kubectl rollout status deployment/simple-java-docker"
+            }
+        }
+
+        stage("Application Test") {
+            steps {
+                sh "kubectl run test-client --rm --image=curlimages/curl -- curl http://java-service:8080"
             }
         }
     }
