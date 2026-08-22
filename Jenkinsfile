@@ -39,7 +39,7 @@ pipeline {
         stage("Deploy to Kubernetes") {
             steps {
                 sh "sed -i \"s|image:.*|image: pareekaditya/gitxjenkins:${BUILD_NUMBER}|\" deployment.yml"
-                sh "kubectl apply -f deployment.yml"
+                sh "kubectl apply -f deployment.yml -f service.yml"
             }
         }
 
