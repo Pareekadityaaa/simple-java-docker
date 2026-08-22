@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-java-docker
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-java-docker
+
+  template:
+    metadata:
+      labels:
+        app: simple-java-docker
+
+    spec:
+      containers:
+        - name: simple-java-docker
+          image: pareekaditya/gitxjenkins:17
+          ports:
+            - containerPort: 8080

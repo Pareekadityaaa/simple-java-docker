@@ -26,23 +26,27 @@ pipeline {
                 sh "docker push pareekaditya/gitxjenkins:${BUILD_NUMBER}"
             }
         }
-stage("Kubernetes Test") {
-    steps {
-        sh "whoami"
-        sh "which kubectl"
-        sh "kubectl version --client"
-        sh "kubectl get nodes"
+
+        stage("Kubernetes Test") {
+            steps {
+                sh "whoami"
+                sh "which kubectl"
+                sh "kubectl version --client"
+                sh "kubectl get nodes"
+            }
+        }
+
+        stage("Deploy to Kubernetes") {
+            steps {
+                sh "sed -i \"s|image:.*|image: pareekaditya/gitxjenkins:${BUILD_NUMBER}|\" deployment.yml"
+                sh "kubectl apply -f deployment.yml"
+            }
+        }
+
+        stage("Verify Deployment") {
+            steps {
+                sh "kubectl rollout status deployment/simple-java-docker"
+            }
+        }
     }
 }
-stage("Deploy to Kubernetes") {
-    steps {
-        sh "kubectl set image deployment/simple-java-docker simple-java-docker=pareekaditya/gitxjenkins:${BUILD_NUMBER}"
-    }
-}
-stage("Verify Deployment") {
-    steps {
-        sh "kubectl rollout status deployment/simple-java-docker"
-    }
-}
-}
-    }
