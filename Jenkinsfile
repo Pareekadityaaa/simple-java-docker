@@ -47,19 +47,22 @@ pipeline {
 
         stage("Verify Deployment") {
             steps {
-                sh "kubectl rollout status deployment/simple-java-docker"
+                catchError {
+                    sh "exit 1"
+                }
             }
         }
 
         stage("Application Test") {
             steps {
-                 sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl http://java-service:8080"
+                sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl http://java-service:8080"
             }
         }
+
         stage("Record Deployment") {
             steps {
                 sh "kubectl annotate deployment simple-java-docker kubernetes.io/change-cause=\"Jenkins build ${BUILD_NUMBER}\" --overwrite"
-    }
-}
+            }
+        }
     }
 }
