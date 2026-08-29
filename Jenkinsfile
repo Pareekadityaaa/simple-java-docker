@@ -47,7 +47,7 @@ pipeline {
 
         stage("Verify Deployment") {
             steps {
-                sh "kubectl rollout status deployment/simple-java-docker"
+                sh "exit 1"
             }
 
             post {
