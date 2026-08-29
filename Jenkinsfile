@@ -61,6 +61,12 @@ pipeline {
             steps {
                 sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl --fail http://java-service:8080"
             }
+
+            post {
+                failure {
+                    sh "kubectl rollout undo deployment/simple-java-docker"
+                }
+            }
         }
 
         stage("Record Deployment") {
