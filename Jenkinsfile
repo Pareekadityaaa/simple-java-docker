@@ -48,11 +48,18 @@ pipeline {
         stage("Verify Deployment") {
             steps {
                 catchError(
-    buildResult: 'SUCCESS',
-    stageResult: 'FAILURE'
-) {
-    sh "exit 1"
-}
+                    buildResult: 'SUCCESS',
+                    stageResult: 'FAILURE'
+                ) {
+                    sh "exit 1"
+                }
+            }
+
+            post {
+                failure {
+			sh "kubectl rollout undo deployment/simple-java-docker"
+
+                }
             }
         }
 
