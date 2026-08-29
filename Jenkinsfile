@@ -47,7 +47,7 @@ pipeline {
 
         stage("Verify Deployment") {
             steps {
-                sh "exit 1"
+                sh "kubectl rollout status deployment/simple-java-docker"
             }
 
             post {
@@ -59,7 +59,7 @@ pipeline {
 
         stage("Application Test") {
             steps {
-                sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl http://java-service:8080"
+                sh "kubectl run test-client --rm -i --image=curlimages/curl -- curl --fail http://java-service:8080"
             }
         }
 
