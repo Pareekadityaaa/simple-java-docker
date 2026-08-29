@@ -51,7 +51,7 @@ pipeline {
     buildResult: 'SUCCESS',
     stageResult: 'FAILURE'
 ) {
-    sh "kubectl rollout status deployment/simple-java-docker"
+    sh "exit 1"
 }
             }
         }
